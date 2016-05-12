@@ -1,5 +1,5 @@
 __author__="Shi Fan"
-import numpy as np, pandas as pd
+import numpy as np, pandas as pd, geopandas as gpd
 import datetime
 
 with open('../data/aggregated/uber15_agg_output/part-00000','rb') as f:
@@ -22,19 +22,25 @@ trips['datetime'] = trips['time'].apply(lambda x: x.to_datetime())
 trips = trips.drop(['time'], axis=1)
 trips = trips.reindex(columns=['borough', 'zone', 'datetime', 'count'])
 
+zones = gpd.read_file('../data/taxi_zones.geojson')
 zone_borough_dict = {}
-for (z,b) in zip(trips.zone, trips.borough):
+for (z,b) in zip(zones.zone, zones.borough):
 	if z not in zone_borough_dict.keys():
 		zone_borough_dict[z] = b
 
-times_to_add = []
+data_to_add = []
+zones_to_add = [i for i in zones.zone.unique() if i not in trips.zone.unique()]
+for z in zones_to_add:
+	for t in time15:
+		data_to_add.append((zone_borough_dict[z], z, t, 0))
+
 for z in trips.zone.unique():
 	times_missing = list(set(time15)-set(trips[trips.zone==z].datetime.tolist()))
 	if len(times_missing)>0:
 		for t in times_missing:
-			times_to_add.append((zone_borough_dict[z], z, t, 0))
+			data_to_add.append((zone_borough_dict[z], z, t, 0))
 
-trips_to_add = pd.DataFrame(times_to_add, columns=['borough', 'zone', 'datetime', 'count'])
+trips_to_add = pd.DataFrame(data_to_add, columns=['borough', 'zone', 'datetime', 'count'])
 trips = trips.append(trips_to_add, ignore_index=True)
 trips = trips.sort(['borough', 'zone', 'datetime'])
 trips = trips.reset_index(drop=True)
