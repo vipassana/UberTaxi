@@ -5,7 +5,6 @@ import sys
 for line in sys.stdin:
     if not line.startswith('Pickup'):
         l = line.strip().split(',')
-        day, time = l[0].strip().split(' ')
-        hour = time.strip().split(':')[0]
+        t = l[0].strip().split(':')
         if l[2]!='Unknown':
-            print l[2]+','+l[3]+','+day+','+hour+'\t'+str(1)
+            print l[2]+','+l[3]+','+t[0]+'\t'+str(1)
