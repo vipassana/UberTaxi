@@ -1,3 +1,4 @@
 data/preprocessed/uber_janjun15.csv filter=lfs diff=lfs merge=lfs -text
 data/aggregated/uber15_agg_final.csv filter=lfs diff=lfs merge=lfs -text
 data/aggregated/uber14_agg_final.csv filter=lfs diff=lfs merge=lfs -text
+data/aggregated/medallion_agg_final.csv filter=lfs diff=lfs merge=lfs -text
