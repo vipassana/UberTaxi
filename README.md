@@ -13,10 +13,15 @@ We intend to compare Uber pickups with Medallion pickups in New York City during
 ### Steps to Run
 
 Run the folders in sequential order as listed below
+
 `parsers` - generate `data/medallion` and `data/uber`
+
 `spatialJoin` - generate `data/preprocessed`
+
 `mapreduce` - generate `data/aggregated/medallion_agg_output`, `data/aggregated/uber14_agg_output`, and `data/aggregated/uber15_agg_output`
+
 `postprocessing` - generate `data/aggregated/*.csv`, and `data/geo/correlation_by_zones.csv`
+
 `analysis` - generate `plots`
 
 ### Result
